@@ -1,0 +1,56 @@
+<html>
+	<head> <title>Docker Portal</title> </head>
+
+	<script>
+		function output(){
+			var cmd1=document.getElementById("inp_box1").value
+			if(document.getElementById('rad1').checked){
+				var passwd=document.getElementById("pass_field").value
+				if(passwd=="redhat"){
+					cmd1="sudo "+cmd1
+				}
+				else
+					alert("Wrong Password.")
+			}
+			var xhr=new XMLHttpRequest();
+			xhr.open("GET","http://192.168.43.248/cgi-bin/test.py?x="+cmd1,true);
+			xhr.send();
+			xhr.onload=function (){
+				var output_html=xhr.responseText;
+				document.getElementById('output_box').innerHTML=output_html;
+			}
+		}
+	</script>
+	<body bgcolor=#F6BCA>
+		<font size=5px><b> Select User type.<br /><font size=2px> (By default - Apache user)</font></b></font>
+		<br /> <br />
+		<div>
+			<input type="radio" id='rad1' name="myRadios" value='rad1'>Root user</value>
+			<input type="radio" id='rad2' name="myRadios" value='rad2'>Apache user</value>
+		<input type=password id="pass_field" />
+		</div>
+		<p><b>Enter Command Input:</b> <input id="inp_box1" type="text" /> </p>
+		<button id="output_btn" onclick="output();">OUTPUT</button>
+		<br />
+		<div id='output_box'><p> Output will appear Here </p></div>
+		<br />
+
+	<script>
+		var click1 = document.getElementById("inp_box1");
+		click1.addEventListener('keyup', function(event){
+			if(event.keyCode === 13){
+				event.preventDefault();
+				document.getElementById("output_btn").click();
+			}
+		});
+	</script>
+<style>
+#pass_field {
+    display: none;
+}
+#rad1:checked ~ #pass_field {
+    display: flex;
+}
+</style>
+	</body>
+</html>
